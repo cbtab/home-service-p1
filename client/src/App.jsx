@@ -1,13 +1,17 @@
-import { Flex, Text, Button } from "@radix-ui/themes";
-export default function App() {
+import { Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import { useAuth } from "./contexts/authentication";
+import Admin from "./components/Admin";
+import Home from "./components/Home";
+const App = () => {
+  const auth = useAuth();
   return (
-    <Flex direction="column" gap="2">
-      <Text>Hello from Radix Themes </Text>
-      <Flex gap="3" align="center">
-        <Button variant="surface" highContrast>
-          เข้าสู่ระบบ
-        </Button>
-      </Flex>
-    </Flex>
+    <Routes>
+      <Route path="/" element={<Home />}></Route>
+      <Route path="/admin" element={<Admin />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+    </Routes>
   );
-}
+};
+
+export default App;
