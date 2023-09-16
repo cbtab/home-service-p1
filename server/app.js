@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./apps/auth.js";
 import { categoryRouter } from "./apps/categoryRouter.js";
+import { serviceRouter } from "./apps/service.js";
 
 const init = async () => {
   const app = express();
@@ -12,7 +13,7 @@ const init = async () => {
 
   app.use("/auth", authRouter);
   app.use("/category", categoryRouter);
-
+  app.use("/service", serviceRouter);
   app.get("/", (req, res) => {
     res.send("server is running");
   });
