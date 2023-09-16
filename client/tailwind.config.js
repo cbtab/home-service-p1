@@ -119,6 +119,9 @@ export default {
         },
       ],
     },
+    fontFamily: {
+      prompt: ["Prompt"],
+    },
 
     extend: {},
   },

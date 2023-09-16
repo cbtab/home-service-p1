@@ -24,7 +24,7 @@ const AuthProvider = (props) => {
       setState({ ...state, user: userDataFromToken, userData: userData });
       if (result.data.userData.role === "admin") {
         console.log("this is admin");
-        navigate("/admin");
+        navigate("/admin/category");
       } else {
         navigate("/");
       }
