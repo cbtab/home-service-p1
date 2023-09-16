@@ -11,6 +11,19 @@ function AdminCategory() {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
 
+  function formatDateTime(dateTime) {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+
+    return new Date(dateTime).toLocaleString("en-US", options);
+  }
+
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/category");
@@ -94,7 +107,7 @@ function AdminCategory() {
         <div className="flex justify-center mt-[50px]">
           <table className="w-[90%] bg-utils-white border border-grey-500 table-auto text-left">
             <thead className="bg-grey-100 h-[41px]">
-              <tr className="text-body3 font-prompt text-grey-700">
+              <tr className="text-[14px] font-semibold font-prompt text-[#646C80]">
                 <th className="w-[10%] text-center">ลำดับ</th>
                 <th className="w-[20%] pl-6">ชื่อหมวกหมู่</th>
                 <th className="w-[25%] pl-6">สร้างเมื่อ</th>
@@ -110,8 +123,12 @@ function AdminCategory() {
                 >
                   <td className="text-center">{category.category_id}</td>
                   <td className="pl-6">{category.category}</td>
-                  <td className="pl-6">{category.created_at}</td>
-                  <td className="pl-6">{category.updated_at}</td>
+                  <td className="pl-6">
+                    {formatDateTime(category.created_at)}
+                  </td>
+                  <td className="pl-6">
+                    {formatDateTime(category.updated_at)}
+                  </td>
                   <td className="text-center space-x-4">
                     <button
                       onClick={() =>
@@ -154,7 +171,7 @@ function AdminCategory() {
               }
               " ใช่หรือไม่
             </div>
-            <div className="space-x-2">
+            <div className="space-x-6">
               <button
                 className="w-[112px] h-[44px] rounded-lg bg-blue-600 text-utils-white font-prompt text-fontHead5 hover:bg-blue-700"
                 onClick={handleDeleteConfirmation}

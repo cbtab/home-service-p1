@@ -1,15 +1,23 @@
 import Sidebar from "../admin/sidebar.jsx";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 
 function AdminCategoryCreate() {
   const [category, setCategory] = useState("");
+  const [existingCategories, setExistingCategories] = useState([]);
+  const [categoryError, setCategoryError] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (existingCategories.map((item) => item.category).includes(category)) {
+      setCategoryError(true);
+      return;
+    }
 
     try {
       const response = await axios.post("http://localhost:3000/category", {
@@ -21,6 +29,18 @@ function AdminCategoryCreate() {
       console.error("Error creating category", error);
     }
   };
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get("http://localhost:3000/category");
+        setExistingCategories(response.data.data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   return (
     <div className="flex flex-row">
@@ -44,7 +64,7 @@ function AdminCategoryCreate() {
         </div>
 
         <div className="flex justify-center mt-[50px]">
-          <div className="w-[90%] h-[124px] bg-utils-white border rounded-md border-grey-500 flex justify-start items-center">
+          <div className="w-[90%] h-[124px] bg-utils-white border rounded-md border-grey-500 flex justify-start items-center relative">
             <label className="font-prompt text-grey-700 text-fontHead5 ml-[30px]">
               ชื่อหมวดหมู่<span className="text-utils-red">*</span>
             </label>
@@ -52,8 +72,13 @@ function AdminCategoryCreate() {
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-[400px] h-[44px] border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded ml-[200px]"
+              className="w-[400px] h-[44px] border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded ml-[200px] pl-4"
             />
+            {categoryError && (
+              <div className="text-utils-red font-prompt text-body3 absolute left-[320px] top-[90px]">
+                ชื่อหมวดหมู่ต้องไม่ซ้ำกัน
+              </div>
+            )}
           </div>
         </div>
       </div>
