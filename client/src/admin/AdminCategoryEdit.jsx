@@ -7,15 +7,27 @@ import { AiOutlineClose } from "react-icons/ai";
 function AdminCategoryEdit() {
   const [category, setCategory] = useState("");
   const [categoryData, setCategoryData] = useState("");
-
-  console.log(category);
-  console.log(categoryData);
+  const [categoryError, setCategoryError] = useState(false);
+  const [existingCategories, setExistingCategories] = useState([]);
 
   const { categoryId } = useParams();
   const navigate = useNavigate();
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+
+  function formatDateTime(dateTime) {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+
+    return new Date(dateTime).toLocaleString("en-US", options);
+  }
 
   const fetchData = async () => {
     try {
@@ -32,14 +44,24 @@ function AdminCategoryEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await axios.put(`http://localhost:3000/category/${categoryId}`, {
-        category,
-      });
-      navigate("/admin/category");
-      console.log("Updated successfully");
-    } catch (error) {
-      console.error("Error updating category:", error);
+    if (existingCategories.map((item) => item.category).includes(category)) {
+      setCategoryError(true);
+      return;
+    }
+
+    if (categoryData.category !== category) {
+      try {
+        await axios.put(`http://localhost:3000/category/${categoryId}`, {
+          category,
+        });
+        navigate("/admin/category");
+        console.log("Updated successfully");
+      } catch (error) {
+        console.error("Error updating category:", error);
+      }
+    } else {
+      // หมวดหมู่ไม่มีการเปลี่ยนแปลง
+      setCategoryError(true);
     }
   };
 
@@ -66,6 +88,18 @@ function AdminCategoryEdit() {
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get("http://localhost:3000/category");
+        setExistingCategories(response.data.data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    }
+    fetchCategories();
   }, []);
 
   return (
@@ -105,7 +139,7 @@ function AdminCategoryEdit() {
 
         <div className="flex justify-center mt-[50px]">
           <div className="w-[90%] h-[334px] bg-utils-white border rounded-md border-grey-500 flex flex-col justify-between ">
-            <div className="flex justify-start mt-[40px] items-center">
+            <div className="flex justify-start mt-[40px] items-center relative">
               <label className="font-prompt text-grey-700 text-fontHead5 ml-[30px]">
                 ชื่อหมวดหมู่<span className="text-utils-red">*</span>
               </label>
@@ -115,6 +149,11 @@ function AdminCategoryEdit() {
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-[400px] h-[44px] border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded ml-[200px] pl-4"
               />
+              {categoryError && (
+                <div className="text-utils-red font-prompt text-body3 absolute left-[320px] top-[60px]">
+                  ชื่อหมวดหมู่ต้องไม่ซ้ำกับชื่อเดิม
+                </div>
+              )}
             </div>
             <div className="flex justify-center">
               <hr className="w-[90%] border-grey-700" />
@@ -125,7 +164,7 @@ function AdminCategoryEdit() {
                 สร้างเมื่อ
               </p>
               <span className="ml-[227px] font-prompt text-fontHead4">
-                {categoryData.created_at}
+                {formatDateTime(categoryData.created_at)}
               </span>
             </div>
             <div className="ml-[30px] flex flex-row mb-[40px]">
@@ -133,7 +172,7 @@ function AdminCategoryEdit() {
                 แก้ไขล่าสุด
               </p>
               <span className="ml-[215px] font-prompt text-fontHead4">
-                {categoryData.updated_at}
+                {formatDateTime(categoryData.updated_at)}
               </span>
             </div>
           </div>
@@ -166,7 +205,7 @@ function AdminCategoryEdit() {
             <div className="text-body2 font-prompt text-center">
               คุณต้องการลบรายการ "{categoryToDelete}" ใช่หรือไม่
             </div>
-            <div className="space-x-2">
+            <div className="space-x-6">
               <button
                 className="w-[112px] h-[44px] rounded-lg bg-blue-600 text-utils-white font-prompt text-fontHead5 hover:bg-blue-700"
                 onClick={handleDeleteConfirmation}
