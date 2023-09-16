@@ -19,13 +19,13 @@ export default {
         100: "#EFEFF2",
         200: "#E6E7EB",
         300: "#CCD0D7",
-        400: "#CCD0D7",
-        500: "#CCD0D7",
-        600: "#CCD0D7",
-        700: "#CCD0D7",
-        800: "#CCD0D7",
-        900: "#CCD0D7",
-        950: "#CCD0D7",
+        400: "#B3B8C4",
+        500: "#9AA1B0",
+        600: "#80899C",
+        700: "#646C80",
+        800: "#4B5160",
+        900: "#323640",
+        950: "#232630",
       },
       purple: {
         100: "#ECE6FF",
@@ -46,7 +46,17 @@ export default {
         bg: "#F3F4F6",
       },
     },
+    fontFamily: {
+      Prompt: ["Prompt", "sans-serif"],
+      prompt: ["Prompt"],
+    },
     fontSize: {
+      fontNav: [
+        "24px",
+        {
+          fontWeight: 500,
+        },
+      ],
       fontHead1: [
         "32px",
         {
@@ -119,20 +129,21 @@ export default {
         },
       ],
     },
-    fontFamily: {
-      prompt: ["Prompt"],
+
+    extend: {
+      width: {
+        128: "32rem",
+      },
     },
 
-    extend: {},
-  },
-
-  plugins: [],
-  "tailwindCSS.includeLanguages": {
-    javascript: "javascript",
-    javascriptreact: "javascriptreact",
-    html: "HTML",
-  },
-  "editor.quickSuggestions": {
-    strings: true,
+    plugins: [],
+    "tailwindCSS.includeLanguages": {
+      javascript: "javascript",
+      javascriptreact: "javascriptreact",
+      html: "HTML",
+    },
+    "editor.quickSuggestions": {
+      strings: true,
+    },
   },
 };
