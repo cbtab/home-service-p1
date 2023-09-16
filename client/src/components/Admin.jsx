@@ -1,6 +1,8 @@
 import { useAuth } from "../contexts/authentication";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import AdminCategory from "../admin/AdminCategory";
+
 const Admin = () => {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -23,7 +25,11 @@ const Admin = () => {
     }
   };
 
-  return <div>this is admin page</div>;
+  return (
+    <>
+      <AdminCategory />
+    </>
+  );
 };
 
 export default Admin;

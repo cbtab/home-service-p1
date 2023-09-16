@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
 import authRouter from "./apps/auth.js";
+import { categoryRouter } from "./apps/categoryRouter.js";
 
 const init = async () => {
   const app = express();
@@ -10,6 +11,7 @@ const init = async () => {
   app.use(bodyParser.json());
 
   app.use("/auth", authRouter);
+  app.use("/category", categoryRouter);
 
   app.get("/", (req, res) => {
     res.send("server is running");
