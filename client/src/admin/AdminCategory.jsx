@@ -146,7 +146,13 @@ function AdminCategory() {
             </button>
             <div className="text-fontHead2 font-prompt">ยืนยันการลบรายการ</div>
             <div className="text-body2 font-prompt text-center">
-              คุณต้องการลบรายการ "{categoryToDelete}" ใช่หรือไม่
+              คุณต้องการลบรายการ "
+              {
+                categoryData.find(
+                  (category) => category.category_id === categoryToDelete
+                )?.category
+              }
+              " ใช่หรือไม่
             </div>
             <div className="space-x-2">
               <button
