@@ -53,7 +53,7 @@ function AdminService() {
         fetchData();
         setShowDeletePopup(false);
       } catch (error) {
-        console.error("Error deleting category:", error);
+        console.error("Error deleting service:", error);
       }
     }
   };
@@ -135,7 +135,7 @@ function AdminService() {
                     >
                       <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Vector%20(4).svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1ZlY3RvciAoNCkuc3ZnIiwiaWF0IjoxNjk0NzA0NTQ4LCJleHAiOjE3MjYyNDA1NDh9.5uJ9TjNs8ooMo6sf13l87hY6gkNlMUTzdgOsgu4onr0&t=2023-09-14T15%3A15%3A48.928Z" />
                     </button>
-                    <Link to={`/admin/category/edit/${service.service_id}`}>
+                    <Link to={`/admin/service/edit/${service.service_id}`}>
                       <button>
                         <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Vector%20(5).svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1ZlY3RvciAoNSkuc3ZnIiwiaWF0IjoxNjk0NzA0NTk2LCJleHAiOjE3MjYyNDA1OTZ9.JsWEGknC_KLTHJ8srarMDmBZ6npWHg6DUx-PTEGSIEo&t=2023-09-14T15%3A16%3A36.771Z" />
                       </button>
@@ -160,12 +160,12 @@ function AdminService() {
               <AiOutlineClose />
             </button>
             <div className="text-fontHead2 font-prompt">ยืนยันการลบรายการ</div>
-            <div className="text-body2 font-prompt text-center">
+            <div className="text-body2 font-prompt text-center flex-wrap w-[280px]">
               คุณต้องการลบรายการ "
               {
-                categoryData.find(
-                  (service) => service.service_id === categoryToDelete
-                )?.service
+                serviceData.find(
+                  (service) => service.service_id === serviceToDelete
+                )?.service_name
               }
               " ใช่หรือไม่
             </div>

@@ -1,4 +1,4 @@
-import Sidebar from "../admin/sidebar.jsx";
+import Sidebar from "../sidebar";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -205,7 +205,7 @@ function AdminCategoryEdit() {
               <AiOutlineClose />
             </button>
             <div className="text-fontHead2 font-prompt">ยืนยันการลบรายการ</div>
-            <div className="text-body2 font-prompt text-center">
+            <div className="text-body2 font-prompt text-center flex-wrap w-[280px]">
               คุณต้องการลบรายการ "{categoryToDelete}" ใช่หรือไม่
             </div>
             <div className="space-x-6">

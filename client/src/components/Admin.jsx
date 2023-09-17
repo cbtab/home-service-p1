@@ -1,7 +1,7 @@
 import { useAuth } from "../contexts/authentication";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import AdminCategory from "../admin/AdminCategory";
+import AdminCategory from "../admin/AdminCategory/AdminCategory.jsx";
 
 const Admin = () => {
   const auth = useAuth();

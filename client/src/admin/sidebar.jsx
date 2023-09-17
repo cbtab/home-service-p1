@@ -16,7 +16,8 @@ function Sidebar() {
 
   if (
     location.pathname === "/admin/service" ||
-    location.pathname === "/admin/service/create"
+    location.pathname === "/admin/service/create" ||
+    location.pathname.startsWith("/admin/service/edit/")
   ) {
     buttonColor2 = "bg-blue-900";
   }
