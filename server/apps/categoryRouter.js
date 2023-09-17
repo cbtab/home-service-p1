@@ -1,8 +1,8 @@
 import { supabase } from "../utils/db.js";
 import { Router } from "express";
-export const categoryRouter = Router();
+export const adminCategoryRouter = Router();
 
-categoryRouter.get("/", async (req, res) => {
+adminCategoryRouter.get("/", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("category_service")
@@ -23,7 +23,7 @@ categoryRouter.get("/", async (req, res) => {
   }
 });
 
-categoryRouter.get("/:id", async (req, res) => {
+adminCategoryRouter.get("/:id", async (req, res) => {
   try {
     const categoryId = req.params.id;
     const { data, error } = await supabase
@@ -46,7 +46,7 @@ categoryRouter.get("/:id", async (req, res) => {
   }
 });
 
-categoryRouter.post("/", async (req, res) => {
+adminCategoryRouter.post("/", async (req, res) => {
   try {
     const { category } = req.body;
 
@@ -79,7 +79,7 @@ categoryRouter.post("/", async (req, res) => {
   }
 });
 
-categoryRouter.put("/:id", async (req, res) => {
+adminCategoryRouter.put("/:id", async (req, res) => {
   try {
     const categoryID = req.params.id;
     const { category } = req.body;
@@ -114,7 +114,7 @@ categoryRouter.put("/:id", async (req, res) => {
   }
 });
 
-categoryRouter.delete("/:id", async (req, res) => {
+adminCategoryRouter.delete("/:id", async (req, res) => {
   try {
     const categoryID = req.params.id;
 

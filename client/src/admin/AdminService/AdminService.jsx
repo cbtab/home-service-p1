@@ -1,15 +1,15 @@
-import Sidebar from "../admin/sidebar.jsx";
+import Sidebar from "../sidebar";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 
-function AdminCategory() {
+function AdminService() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryData, setCategoryData] = useState([]);
-  const [filteredCategoryData, setFilteredCategoryData] = useState([]);
+  const [serviceData, setServiceData] = useState([]);
+  const [filteredServiceData, setFilteredServiceData] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [serviceToDelete, setServiceToDelete] = useState(null);
 
   function formatDateTime(dateTime) {
     const options = {
@@ -26,17 +26,17 @@ function AdminCategory() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/admin/category");
+      const response = await axios.get("http://localhost:3000/admin/service");
       const data = response.data.data;
-      setCategoryData(data);
-      setFilteredCategoryData(data);
+      setServiceData(data);
+      setFilteredServiceData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const showDeleteConfirmationPopup = (categoryId) => {
-    setCategoryToDelete(categoryId);
+  const showDeleteConfirmationPopup = (service_id) => {
+    setServiceToDelete(service_id);
     setShowDeletePopup(true);
   };
 
@@ -45,10 +45,10 @@ function AdminCategory() {
   };
 
   const handleDeleteConfirmation = async () => {
-    if (categoryToDelete) {
+    if (serviceToDelete) {
       try {
         await axios.delete(
-          `http://localhost:3000/admin/category/${categoryToDelete}`
+          `http://localhost:3000/admin/service/${serviceToDelete}`
         );
         fetchData();
         setShowDeletePopup(false);
@@ -58,13 +58,13 @@ function AdminCategory() {
     }
   };
 
-  const filterCategories = (query) => {
+  const filterService = (query) => {
     if (query.trim() === "") {
-      setFilteredCategoryData(categoryData);
+      setFilteredServiceData(serviceData);
     } else {
-      setFilteredCategoryData(
-        categoryData.filter((category) =>
-          category.category.toLowerCase().includes(query.toLowerCase())
+      setFilteredServiceData(
+        serviceData.filter((serviceData) =>
+          serviceData.service_name.toLowerCase().includes(query.toLowerCase())
         )
       );
     }
@@ -79,22 +79,22 @@ function AdminCategory() {
       <Sidebar />
       <div className="w-screen h-screen bg-grey-100">
         <div className="h-[80px] bg-utils-white flex flex-row justify-between items-center drop-shadow-md">
-          <p className="text-fontHead2 font-prompt ml-[50px]">หมวดหมู่</p>
+          <p className="text-fontHead2 font-prompt ml-[50px]">บริการ</p>
           <div className="space-x-5 mr-[50px]">
             <input
               type="text"
-              placeholder="  ค้นหาหมวดหมู่..."
+              placeholder="  ค้นหาบริการ..."
               className="w-[350px] h-[44px] border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded pl-4"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
-                filterCategories(e.target.value);
+                filterService(e.target.value);
               }}
             />
-            <Link to="/admin/category/create">
+            <Link to="/admin/service/create">
               <button className="w-[185px] h-[44px] rounded-lg bg-blue-600 hover:bg-blue-700 space-x-2">
                 <span className="text-utils-white font-prompt text-fontHead5">
-                  เพิ่มหมวดหมู่
+                  เพิ่มบริการ
                 </span>
                 <span className="text-utils-white text-[16px] font-semibold">
                   +
@@ -109,35 +109,33 @@ function AdminCategory() {
             <thead className="bg-grey-100 h-[41px]">
               <tr className="text-[14px] font-semibold font-prompt text-[#646C80]">
                 <th className="w-[10%] text-center">ลำดับ</th>
-                <th className="w-[20%] pl-6">ชื่อหมวกหมู่</th>
-                <th className="w-[25%] pl-6">สร้างเมื่อ</th>
-                <th className="w-[25%] pl-6">แก้ไขล่าสุด</th>
-                <th className="w-[10%] text-center">Action</th>
+                <th className="w-[20%] pl-6">ชื่อบริการ</th>
+                <th className="w-[20%] pl-6">หมวดหมู่</th>
+                <th className="w-[20%] pl-6">สร้างเมื่อ</th>
+                <th className="w-[20%] pl-6">แก้ไขล่าสุด</th>
+                <th className="w-[20%] text-center">Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredCategoryData.map((category) => (
+              {filteredServiceData.map((service) => (
                 <tr
-                  key={category.category_id}
+                  key={service.service_id}
                   className="border border-grey-500 h-[70px] text-body2 font-prompt"
                 >
-                  <td className="text-center">{category.category_id}</td>
-                  <td className="pl-6">{category.category}</td>
-                  <td className="pl-6">
-                    {formatDateTime(category.created_at)}
-                  </td>
-                  <td className="pl-6">
-                    {formatDateTime(category.updated_at)}
-                  </td>
+                  <td className="text-center">{service.service_id}</td>
+                  <td className="pl-6">{service.service_name}</td>
+                  <td className="pl-6">{service.category_service.category}</td>
+                  <td className="pl-6">{formatDateTime(service.created_at)}</td>
+                  <td className="pl-6">{formatDateTime(service.updated_at)}</td>
                   <td className="text-center space-x-4">
                     <button
                       onClick={() =>
-                        showDeleteConfirmationPopup(category.category_id)
+                        showDeleteConfirmationPopup(service.service_id)
                       }
                     >
                       <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Vector%20(4).svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1ZlY3RvciAoNCkuc3ZnIiwiaWF0IjoxNjk0NzA0NTQ4LCJleHAiOjE3MjYyNDA1NDh9.5uJ9TjNs8ooMo6sf13l87hY6gkNlMUTzdgOsgu4onr0&t=2023-09-14T15%3A15%3A48.928Z" />
                     </button>
-                    <Link to={`/admin/category/edit/${category.category_id}`}>
+                    <Link to={`/admin/category/edit/${service.service_id}`}>
                       <button>
                         <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Vector%20(5).svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1ZlY3RvciAoNSkuc3ZnIiwiaWF0IjoxNjk0NzA0NTk2LCJleHAiOjE3MjYyNDA1OTZ9.JsWEGknC_KLTHJ8srarMDmBZ6npWHg6DUx-PTEGSIEo&t=2023-09-14T15%3A16%3A36.771Z" />
                       </button>
@@ -166,8 +164,8 @@ function AdminCategory() {
               คุณต้องการลบรายการ "
               {
                 categoryData.find(
-                  (category) => category.category_id === categoryToDelete
-                )?.category
+                  (service) => service.service_id === categoryToDelete
+                )?.service
               }
               " ใช่หรือไม่
             </div>
@@ -192,4 +190,4 @@ function AdminCategory() {
   );
 }
 
-export default AdminCategory;
+export default AdminService;

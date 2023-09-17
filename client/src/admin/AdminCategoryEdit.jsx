@@ -32,7 +32,7 @@ function AdminCategoryEdit() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/category/${categoryId}`
+        `http://localhost:3000/admin/category/${categoryId}`
       );
       setCategoryData(response.data.data);
       setCategory(response.data.data.category);
@@ -51,7 +51,7 @@ function AdminCategoryEdit() {
 
     if (categoryData.category !== category) {
       try {
-        await axios.put(`http://localhost:3000/category/${categoryId}`, {
+        await axios.put(`http://localhost:3000/admin/category/${categoryId}`, {
           category,
         });
         navigate("/admin/category");
@@ -60,7 +60,6 @@ function AdminCategoryEdit() {
         console.error("Error updating category:", error);
       }
     } else {
-      // หมวดหมู่ไม่มีการเปลี่ยนแปลง
       setCategoryError(true);
     }
   };
@@ -77,7 +76,9 @@ function AdminCategoryEdit() {
   const handleDeleteConfirmation = async () => {
     if (categoryToDelete) {
       try {
-        await axios.delete(`http://localhost:3000/category/${categoryId}`);
+        await axios.delete(
+          `http://localhost:3000/admin/category/${categoryId}`
+        );
         navigate("/admin/category");
         setShowDeletePopup(false);
       } catch (error) {
@@ -93,7 +94,9 @@ function AdminCategoryEdit() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await axios.get("http://localhost:3000/category");
+        const response = await axios.get(
+          "http://localhost:3000/admin/category"
+        );
         setExistingCategories(response.data.data);
       } catch (error) {
         console.error("Error fetching categories", error);
