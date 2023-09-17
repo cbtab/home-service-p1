@@ -1,4 +1,4 @@
-import Sidebar from "../admin/sidebar.jsx";
+import Sidebar from "../sidebar";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -162,7 +162,7 @@ function AdminCategory() {
               <AiOutlineClose />
             </button>
             <div className="text-fontHead2 font-prompt">ยืนยันการลบรายการ</div>
-            <div className="text-body2 font-prompt text-center">
+            <div className="text-body2 font-prompt text-center flex-wrap w-[280px]">
               คุณต้องการลบรายการ "
               {
                 categoryData.find(
