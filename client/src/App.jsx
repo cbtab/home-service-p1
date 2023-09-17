@@ -6,6 +6,8 @@ import Home from "./components/Home";
 import { ServiceProvider } from "./contexts/services";
 import AdminCategoryCreate from "./admin/AdminCategoryCreate.jsx";
 import AdminCategoryEdit from "./admin/AdminCategoryEdit.jsx";
+import AdminService from "./admin/AdminService/AdminService.jsx";
+import AdminServiceCreate from "./admin/AdminService/AdminServiceCreate.jsx";
 
 const App = () => {
   // const auth = useAuth();
@@ -23,6 +25,11 @@ const App = () => {
           <Route
             path="/admin/category/edit/:categoryId"
             element={<AdminCategoryEdit />}
+          />
+          <Route path="/admin/service" element={<AdminService />} />
+          <Route
+            path="/admin/service/create"
+            element={<AdminServiceCreate />}
           />
         </Routes>
       </ServiceProvider>

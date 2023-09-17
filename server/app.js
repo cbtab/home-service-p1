@@ -2,8 +2,9 @@ import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
 import authRouter from "./apps/auth.js";
-import { categoryRouter } from "./apps/categoryRouter.js";
+import { adminCategoryRouter } from "./apps/categoryRouter.js";
 import { serviceRouter } from "./apps/service.js";
+import { adminServiceRouter } from "./apps/adminServiceRouter.js";
 
 const init = async () => {
   const app = express();
@@ -12,8 +13,10 @@ const init = async () => {
   app.use(bodyParser.json());
 
   app.use("/auth", authRouter);
-  app.use("/category", categoryRouter);
+  app.use("/admin/category", adminCategoryRouter);
   app.use("/service", serviceRouter);
+  app.use("/admin/service", adminServiceRouter);
+
   app.get("/", (req, res) => {
     res.send("server is running");
   });
