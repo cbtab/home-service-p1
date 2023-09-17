@@ -38,7 +38,7 @@ authRouter.post("/login", async (req, res) => {
   //   }
 
   const token = jwt.sign(
-    { email: user.email, user_id: user.id },
+    { email: user.email, user_id: user.user_id },
     `${process.env.SECRET_KEY}`,
     {
       expiresIn: "900000",
@@ -54,3 +54,21 @@ authRouter.post("/login", async (req, res) => {
   });
 });
 export default authRouter;
+
+authRouter.get("/:userId", async (req, res) => {
+  const user_id = req.params.userId;
+  let { data: users, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("user_id", user_id);
+
+  if (!users) {
+    return res.json({
+      message: "No user found",
+    });
+  }
+
+  return res.json({
+    data: users,
+  });
+});
