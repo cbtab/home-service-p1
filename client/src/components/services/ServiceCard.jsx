@@ -8,7 +8,6 @@ const ServiceCard = (props) => {
   useEffect(() => {
     setServicesList(service.services);
   }, [service]);
-  console.log(servicesList);
 
   let displayedServices = [];
 

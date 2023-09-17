@@ -32,10 +32,18 @@ const AuthProvider = (props) => {
       console.log(error);
     }
   };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setState({ ...state, user: null, error: null });
+    navigate("/");
+    window.location.reload();
+  };
+
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 
   return (
-    <AuthContext.Provider value={{ state, login, isAuthenticated }}>
+    <AuthContext.Provider value={{ state, login, logout, isAuthenticated }}>
       {props.children}
     </AuthContext.Provider>
   );

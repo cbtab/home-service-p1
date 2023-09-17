@@ -11,7 +11,6 @@ const ServiceProvider = (props) => {
     try {
       const result = await axios.get("http://localhost:3000/service");
       setServices(result.data.data);
-      console.log(result.data.data);
     } catch (error) {
       console.log(error);
     }
