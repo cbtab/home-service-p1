@@ -18,21 +18,32 @@ const ServiceCard = (props) => {
   }
 
   return (
-    <div className="flex flex-row justify-center items-center h-full ">
+    <div className="grid grid-cols-3 gap-2 ">
       {displayedServices.map((name, index) => {
         return (
           <div
             key={index}
-            className="h-[370px] w-[350px] bg-utils-white mx-5 rounded-[8px] bg-no-repeat bg-contain "
+            className="h-[370px] w-[350px] bg-utils-white mx-5 rounded-[8px] bg-no-repeat bg-contain mt-6 "
             style={{
               backgroundImage: `url(${name.service_image})`,
             }}
           >
             <div className="h-[200px]"></div>
             <div className="ml-5 mt-5 ">
-              <div className="font-Prompt text-blue-800 text-[12px] font-[400px] leading-[18px] bg-blue-100 py-[4px] px-[10px] w-[80px] rounded-lg">
-                {name.service_type}
-              </div>
+              {name.category_service.category === "บริการทั่วไป" ? (
+                <div className="font-Prompt text-blue-800 text-[12px] font-[400px] leading-[18px] bg-blue-100 py-[4px] px-[10px] w-[100px] rounded-lg text-center">
+                  {name.category_service.category}
+                </div>
+              ) : name.category_service.category === "บริการห้องครัว" ? (
+                <div className="font-Prompt text-purple-900 text-[12px] font-[400px] leading-[18px] bg-purple-100 py-[4px] px-[10px] w-[100px] rounded-lg text-center">
+                  {name.category_service.category}
+                </div>
+              ) : name.category_service.category === "บริการห้องน้ำ" ? (
+                <div className="font-Prompt text-green-900 text-[12px] font-[400px] leading-[18px] bg-green-100 py-[4px] px-[10px] w-[100px] rounded-lg text-center">
+                  {name.category_service.category}
+                </div>
+              ) : null}
+
               <div className="font-Prompt text-[20px] font-[500] leading-[30px] text-grey-950 my-1">
                 {name.service_name}
               </div>

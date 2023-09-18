@@ -1,8 +1,10 @@
 import ServiceCard from "./services/ServiceCard";
+import { useNavigate } from "react-router";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col">
       <Navbar />
@@ -29,7 +31,12 @@ const Home = () => {
           <div className="my-5">
             <ServiceCard number={3}></ServiceCard>
           </div>
-          <button className="text-[16px] font-[500] font-Prompt leading-[24px] text-utils-white bg-blue-600 py-[1จpx] px-[24px] rounded-[8px] w-[155px] mt-8 hover:drop-shadow-md">
+          <button
+            onClick={() => {
+              navigate("/services");
+            }}
+            className="text-[16px] font-[500] font-Prompt leading-[24px] text-utils-white bg-blue-600 py-[1จpx] px-[24px] rounded-[8px] w-[155px] mt-8 hover:drop-shadow-md"
+          >
             <p className="py-[10px]">ดูบริการทั้งหมด</p>
           </button>
         </div>
@@ -42,7 +49,7 @@ const Home = () => {
           }}
         ></div>
         <div
-          className="h-[378px] w-[100%] bg-blue-600 flex flex-col justify-center pl-[100px] bg-[length:416px_416px] bg-no-repeat overflow-hidden bg-[right_100px_bottom_-50px] mix-blend-screen"
+          className="relative h-[378px] w-[100%] bg-blue-600 flex flex-col justify-center pl-[100px] bg-[length:416px_416px] bg-no-repeat overflow-hidden bg-[right_100px_bottom_-50px] mix-blend-screen"
           style={{
             backgroundImage: `url('https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/images/f0733b5ff94a23b59fd5fccba21d7d98.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvZjA3MzNiNWZmOTRhMjNiNTlmZDVmY2NiYTIxZDdkOTgucG5nIiwiaWF0IjoxNjk0ODY1OTgzLCJleHAiOjE3MjY0MDE5ODN9.LDNFrq1WTY9X3cik2FMAHYDGl651dq5xf-sF3p4NXEU&t=2023-09-16T12%3A06%3A23.801Z')`,
           }}

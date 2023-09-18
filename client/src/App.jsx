@@ -1,41 +1,54 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-// import { useAuth } from "./contexts/authentication";
 import Admin from "./components/Admin";
 import Home from "./components/Home";
+import OurServices from "./components/OurServices";
 import { ServiceProvider } from "./contexts/services";
 import AdminCategoryCreate from "./admin/AdminCategory/AdminCategoryCreate.jsx";
 import AdminCategoryEdit from "./admin/AdminCategory/AdminCategoryEdit.jsx";
 import AdminService from "./admin/AdminService/AdminService.jsx";
 import AdminServiceCreate from "./admin/AdminService/AdminServiceCreate.jsx";
-// import AdminServiceEdit from "./admin/AdminService/AdminServiceEdit.jsx";
+import AdminCategory from "./admin/AdminCategory/AdminCategory";
+import { useEffect, useState } from "react";
 
 const App = () => {
-  // const auth = useAuth();
+  const [validateRole, setValidateRole] = useState("user");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (token && role) {
+      setValidateRole(role);
+    }
+  }, []);
+
+  const userRoutes = (
+    <>
+      <Route path="/" element={<Home />} />
+      <Route path="/services" element={<OurServices />} />
+      <Route path="/login" element={<Login />} />
+    </>
+  );
+
+  const adminRoutes = (
+    <>
+      <Route path="/" element={<Admin />} />
+      <Route path="/admin/category" element={<AdminCategory />} />
+      <Route path="/admin/category/create" element={<AdminCategoryCreate />} />
+      <Route
+        path="/admin/category/edit/:categoryId"
+        element={<AdminCategoryEdit />}
+      />
+      <Route path="/admin/service" element={<AdminService />} />
+      <Route path="/admin/service/create" element={<AdminServiceCreate />} />
+    </>
+  );
   return (
     <>
       <ServiceProvider>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/admin/category" element={<Admin />} />
-          <Route
-            path="/admin/category/create"
-            element={<AdminCategoryCreate />}
-          />
-          <Route
-            path="/admin/category/edit/:categoryId"
-            element={<AdminCategoryEdit />}
-          />
-          <Route path="/admin/service" element={<AdminService />} />
-          <Route
-            path="/admin/service/create"
-            element={<AdminServiceCreate />}
-          />
-          {/* <Route
-            path="/admin/service/edit/:serviceId"
-            element={<AdminServiceEdit />}
-          /> */}
+          {validateRole === "user" ? userRoutes : null}
+          {validateRole === "admin" ? adminRoutes : null}
         </Routes>
       </ServiceProvider>
     </>
