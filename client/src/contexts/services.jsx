@@ -9,7 +9,7 @@ const ServiceProvider = (props) => {
 
   const getServices = async () => {
     try {
-      const result = await axios.get("http://localhost:3000/service");
+      const result = await axios.get("http://localhost:3000/admin/service");
       setServices(result.data.data);
     } catch (error) {
       console.log(error);

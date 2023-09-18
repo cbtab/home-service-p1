@@ -29,7 +29,6 @@ const Login = () => {
         `http://localhost:3000/auth/login`,
         data
       );
-      console.log(response);
       if (response.data.message === "Login successful") {
         login(data);
       } else {

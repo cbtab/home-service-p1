@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-utils-white flex flex-row justify-evenly items-center h-20 drop-shadow-xl sticky top-0 z-2">
+      <div className="bg-utils-white flex flex-row justify-evenly items-center h-20 drop-shadow-xl sticky top-0 z-[100]">
         <div className="flex flex-row">
           <div
             className="flex flex-row items-center text-fontNav font-Prompt mr-10 text-blue-600 cursor-pointer"
@@ -45,7 +45,14 @@ const Navbar = () => {
             ></img>
             HomeServices
           </div>
-          <button className="font-Prompt ml-5">บริการของเรา</button>
+          <button
+            className="font-Prompt ml-5"
+            onClick={() => {
+              navigate("/services");
+            }}
+          >
+            บริการของเรา
+          </button>
         </div>
         <div className="w-2"></div>
         {isValid ? (
