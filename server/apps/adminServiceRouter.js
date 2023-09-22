@@ -1,6 +1,12 @@
 import { supabase } from "../utils/db.js";
 import { Router } from "express";
+import { supabaseUpload } from "../utils/upload.js";
+import multer from "multer";
+
 export const adminServiceRouter = Router();
+
+const multerUpload = multer({ storage: multer.memoryStorage() });
+const avatarUpload = multerUpload.fields([{ name: "service_image" }]);
 
 adminServiceRouter.get("/", async (req, res) => {
   try {
@@ -40,6 +46,44 @@ adminServiceRouter.get("/:id", async (req, res) => {
     }
 
     res.json({ data });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
+  }
+});
+
+adminServiceRouter.post("/", avatarUpload, async (req, res) => {
+  let serviceImage = null;
+
+  if (req.files && req.files.service_image) {
+    serviceImage = await supabaseUpload(req.files);
+  }
+
+  try {
+    const { serviceName, category, subService } = req.body;
+
+    const filteredSubService = subService.filter(
+      (item) => item.cost !== "" || item.name !== "" || item.unit !== ""
+    );
+
+    const newService = {
+      service_name: serviceName,
+      category_id: category,
+      sub_service: filteredSubService,
+      service_image: serviceImage,
+      created_at: new Date(),
+    };
+
+    const { error } = await supabase.from("service").insert(newService);
+
+    if (error) {
+      console.error("Error creating service:", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while creating service." });
+    }
+
+    res.status(201).json({ message: "admin has been created successfully" });
   } catch (err) {
     console.error("Internal server error:", err);
     res.status(500).json({ error: "An internal server error occurred." });
