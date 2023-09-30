@@ -1,7 +1,9 @@
 import { useService } from "../../contexts/services";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const ServiceCard = (props) => {
+  const navigate = useNavigate();
   const [servicesList, setServicesList] = useState(null);
   const service = useService();
 
@@ -9,12 +11,57 @@ const ServiceCard = (props) => {
     setServicesList(service.services);
   }, [service]);
 
+  const [selectService, setSelectService] = useState("");
+
+  const handleSelectService = (name) => {
+    setSelectService(name);
+    localStorage.setItem("service", name);
+    navigate("/payment");
+  };
+
   let displayedServices = [];
 
   if (props.number) {
     displayedServices = servicesList ? servicesList.slice(0, props.number) : [];
   } else {
-    displayedServices = servicesList || [];
+    // Filter servicesList based on the sort prop
+    if (props.sort === "ascending") {
+      displayedServices = servicesList ? [...servicesList].sort() : [];
+    } else if (props.sort === "general") {
+      displayedServices = servicesList
+        ? servicesList.filter(
+            (service) => service.category_service.category_id === 1
+          )
+        : [];
+    } else if (props.sort === "kitchen") {
+      displayedServices = servicesList
+        ? servicesList.filter(
+            (service) => service.category_service.category_id === 2
+          )
+        : [];
+    } else if (props.sort === "bathroom") {
+      displayedServices = servicesList
+        ? servicesList.filter(
+            (service) => service.category_service.category_id === 3
+          )
+        : [];
+    } else if (props.sort === "bedroom") {
+      displayedServices = servicesList
+        ? servicesList.filter(
+            (service) => service.category_service.category_id === 4
+          )
+        : [];
+    } else if (props.sort === "sort-price-low") {
+      displayedServices = servicesList
+        ? [...servicesList].sort((a, b) => a.price - b.price)
+        : [];
+    } else if (props.sort === "sort-price-high") {
+      displayedServices = servicesList
+        ? [...servicesList].sort((a, b) => b.price - a.price)
+        : [];
+    } else {
+      displayedServices = servicesList || [];
+    }
   }
 
   return (
@@ -53,7 +100,10 @@ const ServiceCard = (props) => {
                   ค่าบริการประมาณ
                 </p>
               </div>
-              <div className="font-Prompt underline text-blue-600 pt-3 cursor-pointer">
+              <div
+                className="font-Prompt underline text-blue-600 pt-3 cursor-pointer"
+                onClick={() => handleSelectService(name.service_name)}
+              >
                 เลือกบริการ
               </div>
             </div>

@@ -1,8 +1,15 @@
 import Navbar from "./Navbar";
 import ServiceCard from "./services/ServiceCard";
 import Footer from "./Footer";
+import { useState } from "react";
 
 const OurServices = () => {
+  const [selectedValue, setSelectedValue] = useState("all");
+  const [storedFilter, setStoredFilter] = useState("");
+
+  const handleChangeService = (e) => {
+    setSelectedValue(e.target.value);
+  };
   return (
     <div>
       <Navbar />
@@ -25,16 +32,83 @@ const OurServices = () => {
             ></input>
           </div>
           <div className="w-[100px]"></div>
-          <div>บริการทั้งหมด</div>
+          <div className="flex flex-col justify-center items-center">
+            <label
+              htmlFor="service-category"
+              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
+            >
+              หมวดหมู่บริการ
+            </label>
+            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
+              <select
+                id="service-category"
+                name="service-category"
+                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
+                value={selectedValue}
+                onChange={handleChangeService}
+              >
+                <option value="all">บริการทั้งหมด</option>
+                <option value="general">บริการทั่วไป</option>
+                <option value="kitchen">บริการห้องครัว</option>
+                <option value="bathroom">บริการห้องน้ำ</option>
+              </select>
+            </div>
+          </div>
           <div className="w-[100px]"></div>
-          <div>ราคา</div>
+          <div className="flex flex-col justify-center items-center">
+            <label
+              htmlFor="price"
+              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
+            >
+              ราคา
+            </label>
+            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
+              <select
+                id="price"
+                name="price"
+                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
+                // value={selectedValue}
+                // onChange={handleChange}
+              >
+                <option value="0-2000฿">0-2000฿</option>
+                <option value="0-4000฿">0-4000฿</option>
+              </select>
+            </div>
+          </div>
           <div className="w-[100px]"></div>
-          <div>เรียงตาม</div>
+          <div className="flex flex-col justify-center items-center">
+            <label
+              htmlFor="sort"
+              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
+            >
+              เรียงตาม
+            </label>
+            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
+              <select
+                id="sort"
+                name="sort"
+                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
+                // value={selectedValue}
+                // onChange={handleChange}
+              >
+                <option value="ascending">ตามตัวอักษร (Ascending)</option>
+                <option value="sort-price-low">ตามราคาต่ำ (Low price)</option>
+                <option value="sort-price-high">ตามราคาสูง (High price)</option>
+              </select>
+            </div>
+          </div>
           <div className="w-[100px]"></div>
-          <button>ค้นหา</button>
+          <button
+            className="py-[8px] px-[24px] font-Prompt text-blue-600 rounded-md border border-blue-600 bg-utils-white hover:bg-blue-500 hover:text-utils-white"
+            onClick={() => {
+              setStoredFilter(selectedValue);
+            }}
+          >
+            ค้นหา
+          </button>
         </div>
         <div className="flex flex-row items-center justify-center my-11">
-          <ServiceCard></ServiceCard>
+          <ServiceCard sort={storedFilter}></ServiceCard>
         </div>
         <div
           className="h-[378px] w-[100%] bg-blue-600 flex flex-col justify-center items-center bg-[length:416px_416px] bg-no-repeat overflow-hidden bg-[right_100px_bottom_-50px] 

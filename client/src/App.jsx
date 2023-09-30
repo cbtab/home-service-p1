@@ -12,7 +12,7 @@ import AdminCategory from "./admin/AdminCategory/AdminCategory";
 import AdminServiceEdit from "./admin/AdminService/AdminServiceEdit.jsx";
 import AdminServiceDetail from "./admin/AdminService/AdminServiceDetail.jsx";
 import { useEffect, useState } from "react";
-
+import Payment from "./components/Payment";
 const App = () => {
   const [validateRole, setValidateRole] = useState("user");
 
@@ -29,6 +29,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<OurServices />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/payment" element={<Payment />} />
     </>
   );
 
