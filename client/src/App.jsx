@@ -9,6 +9,8 @@ import AdminCategoryEdit from "./admin/AdminCategory/AdminCategoryEdit.jsx";
 import AdminService from "./admin/AdminService/AdminService.jsx";
 import AdminServiceCreate from "./admin/AdminService/AdminServiceCreate.jsx";
 import AdminCategory from "./admin/AdminCategory/AdminCategory";
+import AdminServiceEdit from "./admin/AdminService/AdminServiceEdit.jsx";
+import AdminServiceDetail from "./admin/AdminService/AdminServiceDetail.jsx";
 import { useEffect, useState } from "react";
 
 const App = () => {
@@ -41,6 +43,14 @@ const App = () => {
       />
       <Route path="/admin/service" element={<AdminService />} />
       <Route path="/admin/service/create" element={<AdminServiceCreate />} />
+      <Route
+        path="/admin/service/edit/:serviceId"
+        element={<AdminServiceEdit />}
+      />
+      <Route
+        path="/admin/service/detail/:serviceId"
+        element={<AdminServiceDetail />}
+      />
     </>
   );
   return (
