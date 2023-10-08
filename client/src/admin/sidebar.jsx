@@ -17,13 +17,14 @@ function Sidebar() {
   if (
     location.pathname === "/admin/service" ||
     location.pathname === "/admin/service/create" ||
-    location.pathname.startsWith("/admin/service/edit/")
+    location.pathname.startsWith("/admin/service/edit/") ||
+    location.pathname.startsWith("/admin/service/detail/")
   ) {
     buttonColor2 = "bg-blue-900";
   }
 
   return (
-    <div className="w-[240px] h-screen bg-blue-950 flex flex-col justify-between">
+    <div className="w-[240px] bg-blue-950 flex flex-col justify-between">
       <div className="flex flex-col justify-start items-center">
         <div className="w-[192px] h-[46px] bg-blue-100 flex flex-row items-center justify-center rounded-xl space-x-2 mt-[30px]">
           <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/house%201.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2hvdXNlIDEuc3ZnIiwiaWF0IjoxNjk0NjgxNjY2LCJleHAiOjE3MjYyMTc2NjZ9.Gt9LAsLUguvcVCzT8LvFeA6V8abFNw-RfL0tISeMEjI&t=2023-09-14T08%3A54%3A06.996Z" />

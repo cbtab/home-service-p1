@@ -90,6 +90,50 @@ adminServiceRouter.post("/", avatarUpload, async (req, res) => {
   }
 });
 
+adminServiceRouter.put("/:id", avatarUpload, async (req, res) => {
+  let serviceImage;
+
+  if (req.files && req.files.service_image) {
+    serviceImage = await supabaseUpload(req.files);
+  } else {
+    serviceImage;
+  }
+
+  try {
+    const serviceId = req.params.id;
+    const { serviceName, category, subService } = req.body;
+
+    const filteredSubService = subService.filter(
+      (item) => item.cost !== "" || item.name !== "" || item.unit !== ""
+    );
+
+    const updateService = {
+      service_name: serviceName,
+      category_id: category,
+      sub_service: filteredSubService,
+      service_image: serviceImage,
+      updated_at: new Date(),
+    };
+
+    const { error } = await supabase
+      .from("service")
+      .update(updateService)
+      .eq("service_id", serviceId);
+
+    if (error) {
+      console.error("Error updating service:", error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while updating service." });
+    }
+
+    res.status(201).json({ message: "admin has been updated successfully" });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
+  }
+});
+
 adminServiceRouter.delete("/:id", async (req, res) => {
   try {
     const serviceId = req.params.id;

@@ -1,7 +1,7 @@
 import Sidebar from "../sidebar";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 
 function AdminService() {
@@ -10,6 +10,8 @@ function AdminService() {
   const [filteredServiceData, setFilteredServiceData] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState(null);
+
+  const navigate = useNavigate();
 
   function formatDateTime(dateTime) {
     const options = {
@@ -123,7 +125,11 @@ function AdminService() {
                   className="border border-grey-500 h-[70px] text-body2 font-prompt"
                 >
                   <td className="text-center">{service.service_id}</td>
-                  <td className="pl-6">{service.service_name}</td>
+                  <td className="pl-6 hover:underline">
+                    <Link to={`/admin/service/detail/${service.service_id}`}>
+                      {service.service_name}
+                    </Link>
+                  </td>
                   <td className="pl-6">{service.category_service.category}</td>
                   <td className="pl-6">{formatDateTime(service.created_at)}</td>
                   <td className="pl-6">{formatDateTime(service.updated_at)}</td>

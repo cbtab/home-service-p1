@@ -13,7 +13,7 @@ function AdminServiceCreate() {
   const [serviceName, setServiceName] = useState();
   const [category, setCategory] = useState();
 
-  const [subService, setsubService] = useState([
+  const [subService, setSubService] = useState([
     { name: "", cost: "", unit: "" },
     { name: "", cost: "", unit: "" },
   ]);
@@ -26,7 +26,7 @@ function AdminServiceCreate() {
   const [subServiceError, setSubServiceError] = useState(false);
 
   const addNewItem = () => {
-    setsubService([...subService, { name: "", cost: "", unit: "" }]);
+    setSubService([...subService, { name: "", cost: "", unit: "" }]);
   };
 
   // ลบรายการ input fields
@@ -34,7 +34,7 @@ function AdminServiceCreate() {
     if (subService.length > 1) {
       const updatedItems = [...subService];
       updatedItems.splice(index, 1);
-      setsubService(updatedItems);
+      setSubService(updatedItems);
     }
   };
 
@@ -63,12 +63,13 @@ function AdminServiceCreate() {
       !serviceName ||
       !category ||
       subService.length === 0 ||
-      subService.every((item) => !item.name)
+      subService.every((item) => !item.name || !item.cost || !item.unit)
     ) {
       setServiceNameError(!serviceName);
       setCategoryError(!category);
       setSubServiceError(
-        subService.length === 0 || subService.every((item) => !item.name)
+        subService.length === 0 ||
+          subService.every((item) => !item.name || !item.cost || !item.unit)
       );
       return;
     }
@@ -169,7 +170,7 @@ function AdminServiceCreate() {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className={`w-[400px] h-[44px] relative border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded ml-[200px] pl-4 ${
+                    className={`w-[400px] h-[44px] relative border border-grey-300 font-prompt focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded ml-[203px] pl-4 ${
                       categoryError ? "border-utils-red" : null
                     }`}
                   >
@@ -281,7 +282,7 @@ function AdminServiceCreate() {
                         onChange={(e) => {
                           const updatedItems = [...subService];
                           updatedItems[index].name = e.target.value;
-                          setsubService(updatedItems);
+                          setSubService(updatedItems);
                         }}
                       />
                     </div>
@@ -298,7 +299,7 @@ function AdminServiceCreate() {
                         onChange={(e) => {
                           const updatedItems = [...subService];
                           updatedItems[index].cost = e.target.value;
-                          setsubService(updatedItems);
+                          setSubService(updatedItems);
                         }}
                       />
                     </div>
@@ -315,7 +316,7 @@ function AdminServiceCreate() {
                         onChange={(e) => {
                           const updatedItems = [...subService];
                           updatedItems[index].unit = e.target.value;
-                          setsubService(updatedItems);
+                          setSubService(updatedItems);
                         }}
                       />
                     </div>
