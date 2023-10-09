@@ -17,8 +17,10 @@ function AdminServiceEdit() {
     { name: "", cost: "", unit: "" },
   ]);
 
-  const [serviceImage, setServiceImage] = useState({});
-  // console.log(serviceImage);
+  const [serviceImageData, setServiceImageData] = useState();
+  const [serviceImage, setServiceImage] = useState([]);
+
+  // console.log(serviceImageData);
 
   // validation
   const [serviceNameError, setServiceNameError] = useState(false);
@@ -45,7 +47,6 @@ function AdminServiceEdit() {
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     setServiceImage({
-      ...serviceImage,
       [uniqueId]: event.target.files[0],
     });
   };
@@ -53,7 +54,7 @@ function AdminServiceEdit() {
   const handleRemoveImage = (event, serviceImageKey) => {
     event.preventDefault();
     delete serviceImage[serviceImageKey];
-    setAvatars({ ...serviceImage });
+    setServiceImage({ ...serviceImage });
   };
 
   function formatDateTime(dateTime) {
@@ -122,6 +123,11 @@ function AdminServiceEdit() {
     }
   };
 
+  const loadFile = (file) => {
+    console.log(file);
+    return URL.createObjectURL(file);
+  };
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -135,7 +141,7 @@ function AdminServiceEdit() {
       const subServiceData = data.sub_service || [];
       setSubService(subServiceData);
 
-      // if (data.service_image !== null) setServiceImage(data.service_image);
+      setServiceImageData(data.service_image);
     } catch (error) {
       console.error("Error fetching service data:", error);
     }
@@ -177,6 +183,7 @@ function AdminServiceEdit() {
         console.error("Error fetching categories", error);
       }
     }
+
     fetchCategories();
   }, [categoryData]);
 
@@ -272,52 +279,69 @@ function AdminServiceEdit() {
                   รูปภาพ<span className="text-utils-red">*</span>
                 </div>
                 <div className="w-[433px] h-[143px] ml-[215px] border-2 border-dashed rounded-lg border-grey-300 flex flex-col justify-evenly items-center">
-                  {Object.keys(serviceImage).length === 0 ? (
-                    <label htmlFor="upload">
-                      <input
-                        id="upload"
-                        name="serviceImage"
-                        type="file"
-                        onChange={handleFileChange}
-                        disabled={Object.keys(serviceImage).length > 0}
-                        accept="image/jpg, image/jpeg, image/png"
-                        hidden
+                  {serviceImageData ? (
+                    <div className="relative">
+                      <img
+                        className="w-[431px] h-[138px] rounded-lg object-cover border-grey-300"
+                        src={serviceImageData}
                       />
-                      <div className="w-[433px] h-[143px] flex flex-col justify-evenly items-center">
-                        <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Path.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1BhdGguc3ZnIiwiaWF0IjoxNjk1MjI0MzExLCJleHAiOjE3MjY3NjAzMTF9.Qiv_3FxUtjIr7JbItUeXO08wK42V8ZZrmeFz4xsM-SY&t=2023-09-20T15%3A38%3A28.874Z" />
-                        <div className="font-prompt text-blue-600 text-body3">
-                          อัพโหลดรูปภาพ{" "}
-                          <span className="font-prompt text-grey-700 text-body3">
-                            หรือ ลากและวางที่นี่
-                          </span>
-                        </div>
-                        <p className="font-prompt text-grey-700 text-body4">
-                          PNG, JPG ขนาดไม่เกิน 5MB
-                        </p>
-                      </div>
-                    </label>
-                  ) : null}
-                  {/* Avatar Render */}
-                  {Object.keys(serviceImage).map((serviceImageKey) => {
-                    const file = serviceImage[serviceImageKey];
-                    return (
-                      <div key={serviceImageKey} className="relative">
-                        <img
-                          className="w-[431px] h-[138px] rounded-lg object-cover border-grey-300"
-                          src={URL.createObjectURL(file)}
-                          alt={file.name}
-                        />
-                        <button
-                          className="flex items-center justify-center absolute right-0 mt-1 font-prompt text-blue-600 text-fontHead5 underline"
-                          onClick={(event) =>
-                            handleRemoveImage(event, serviceImageKey)
-                          }
-                        >
-                          ลบรูปภาพ
-                        </button>
-                      </div>
-                    );
-                  })}
+                      <button
+                        className="flex items-center justify-center absolute right-0 mt-1 font-prompt text-blue-600 text-fontHead5 underline"
+                        onClick={() => setServiceImageData(null)}
+                      >
+                        ลบรูปภาพ
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      {Object.keys(serviceImage).length === 0 ? (
+                        <label htmlFor="upload">
+                          <input
+                            id="upload"
+                            name="serviceImage"
+                            type="file"
+                            onChange={handleFileChange}
+                            disabled={Object.keys(serviceImage).length > 0}
+                            accept="image/jpg, image/jpeg, image/png"
+                            hidden
+                          />
+                          <div className="w-[433px] h-[143px] flex flex-col justify-evenly items-center">
+                            <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Path.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1BhdGguc3ZnIiwiaWF0IjoxNjk1MjI0MzExLCJleHAiOjE3MjY3NjAzMTF9.Qiv_3FxUtjIr7JbItUeXO08wK42V8ZZrmeFz4xsM-SY&t=2023-09-20T15%3A38%3A28.874Z" />
+                            <div className="font-prompt text-blue-600 text-body3">
+                              อัพโหลดรูปภาพ{" "}
+                              <span className="font-prompt text-grey-700 text-body3">
+                                หรือ ลากและวางที่นี่
+                              </span>
+                            </div>
+                            <p className="font-prompt text-grey-700 text-body4">
+                              PNG, JPG ขนาดไม่เกิน 5MB
+                            </p>
+                          </div>
+                        </label>
+                      ) : null}
+                      {Object.keys(serviceImage).map((serviceImageKey) => {
+                        const file = serviceImage[serviceImageKey];
+                        return (
+                          <div key={serviceImageKey} className="relative">
+                            <img
+                              className="w-[431px] h-[138px] rounded-lg object-cover border-grey-300"
+                              // src={URL.createObjectURL(file)}
+                              src={loadFile(file)}
+                              alt={file.name}
+                            />
+                            <button
+                              className="flex items-center justify-center absolute right-0 mt-1 font-prompt text-blue-600 text-fontHead5 underline"
+                              onClick={(event) =>
+                                handleRemoveImage(event, serviceImageKey)
+                              }
+                            >
+                              ลบรูปภาพ
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
                 </div>
               </div>
               <div className="font-prompt text-grey-500 text-body3 ml-[273px] -mt-[36px]">

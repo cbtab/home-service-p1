@@ -9,6 +9,14 @@ function AdminServiceDetail() {
   const { serviceId } = useParams();
 
   const [serviceData, setServiceData] = useState();
+  const [subService, setSubService] = useState([
+    { name: "", cost: "", unit: "" },
+    { name: "", cost: "", unit: "" },
+  ]);
+  const [categoryData, setCategoryData] = useState();
+  const [categoryId, setCategoryId] = useState();
+
+  // console.log(categoryData);
 
   function formatDateTime(dateTime) {
     const options = {
@@ -30,6 +38,8 @@ function AdminServiceDetail() {
       );
       const data = response.data.data;
       setServiceData(data);
+      setSubService(data.sub_service);
+      setCategoryId(data.category_id);
     } catch (error) {
       console.error("Error fetching service data:", error);
     }
@@ -37,6 +47,21 @@ function AdminServiceDetail() {
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/admin/category/${categoryId}`
+        );
+        setCategoryData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    }
+
+    fetchCategories();
   }, []);
 
   return (
@@ -72,14 +97,20 @@ function AdminServiceDetail() {
           <div className="w-[90%] h-[100%] bg-utils-white border rounded-md border-grey-500 flex flex-col justify-start items-start">
             <div className="h-[380px] w-[100%] flex flex-col justify-around items-start pl-[40px]">
               <div>
-                <label className="font-prompt text-grey-700 text-fontHead5">
+                <div className="font-prompt text-grey-700 text-fontHead5">
                   ชื่อบริการ<span className="text-utils-red">*</span>
-                </label>
+                  <div className="ml-[270px] -mt-[25px] font-prompt text-grey-700 text-fontHead5">
+                    {serviceData ? serviceData.service_name : null}
+                  </div>
+                </div>
               </div>
 
               <div>
                 <label className="font-prompt text-grey-700 text-fontHead5">
                   หมวดหมู่<span className="text-utils-red">*</span>
+                  <div className="ml-[270px] -mt-[25px] font-prompt text-grey-700 text-fontHead5">
+                    {categoryData ? categoryData.category : null}
+                  </div>
                 </label>
               </div>
 
@@ -89,16 +120,12 @@ function AdminServiceDetail() {
                 </div>
                 <div className="w-[433px] h-[143px] ml-[215px] border-2 border-dashed rounded-lg border-grey-300 flex flex-col justify-evenly items-center">
                   <div className="w-[433px] h-[143px] flex flex-col justify-evenly items-center">
-                    <img src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/Path.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL1BhdGguc3ZnIiwiaWF0IjoxNjk1MjI0MzExLCJleHAiOjE3MjY3NjAzMTF9.Qiv_3FxUtjIr7JbItUeXO08wK42V8ZZrmeFz4xsM-SY&t=2023-09-20T15%3A38%3A28.874Z" />
-                    <div className="font-prompt text-blue-600 text-body3">
-                      อัพโหลดรูปภาพ{" "}
-                      <span className="font-prompt text-grey-700 text-body3">
-                        หรือ ลากและวางที่นี่
-                      </span>
-                    </div>
-                    <p className="font-prompt text-grey-700 text-body4">
-                      PNG, JPG ขนาดไม่เกิน 5MB
-                    </p>
+                    {serviceData ? (
+                      <img
+                        className="w-[431px] h-[138px] rounded-lg object-cover border-grey-300"
+                        src={serviceData.service_image}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -115,6 +142,39 @@ function AdminServiceDetail() {
               <div className="font-prompt text-grey-700 text-fontHead5">
                 รายการบริการย่อย
               </div>
+              <div>
+                {subService.map((item, index) => (
+                  <div
+                    className="flex flex-row justify-evenly items-center mt-[20px]"
+                    key={index}
+                  >
+                    <div className="flex flex-col">
+                      <label className="font-prompt text-grey-700 text-body3">
+                        ชื่อรายการ
+                      </label>
+                      <div className="w-[422px] h-[38px] font-prompt pl-4">
+                        {item.name}
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="font-prompt text-grey-700 text-body3">
+                        ค่าบริการ / 1 หน่วย
+                      </label>
+                      <div className="w-[240px] h-[38px] font-prompt pl-4">
+                        {item.cost}
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="font-prompt text-grey-700 text-body3">
+                        หน่วยบริการ
+                      </label>
+                      <div className="w-[240px] h-[38px] font-prompt pl-4">
+                        {item.unit}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="w-[100%] border-1 border-grey-700 flex justify-center">
@@ -125,17 +185,17 @@ function AdminServiceDetail() {
               <p className="font-prompt text-grey-700 text-fontHead5">
                 สร้างเมื่อ
               </p>
-              <span className="ml-[227px] font-prompt text-grey-700 text-fontHead5">
+              <div className="ml-[227px] font-prompt">
                 {serviceData ? formatDateTime(serviceData.created_at) : null}
-              </span>
+              </div>
             </div>
             <div className="pl-[40px] flex flex-row mb-[30px] mt-[15px]">
               <p className="font-prompt text-grey-700 text-fontHead5">
                 แก้ไขล่าสุด
               </p>
-              <span className="ml-[215px] font-prompt text-grey-700 text-fontHead5">
+              <div className="ml-[215px] font-prompt">
                 {serviceData ? formatDateTime(serviceData.updated_at) : null}
-              </span>
+              </div>
             </div>
           </div>
         </div>
