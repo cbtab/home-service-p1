@@ -54,6 +54,29 @@ authRouter.post("/login", async (req, res) => {
     role: user.role,
   });
 });
+
+authRouter.post("/register", async (req, res) => {
+  const loginIdentifier = req.body.loginIdentifier;
+  const password = req.body.password;
+
+  const isEmail = /\S+@\S+\.\S+/.test(loginIdentifier);
+
+  const newData = {
+    fullname: "Dummy",
+    email: loginIdentifier,
+    password: password,
+    role: "user",
+  };
+
+  if (isEmail) {
+    const { data, error } = await supabase.from("users").insert(newData);
+  }
+
+  return res.status(200).json({
+    message: "Register successful",
+  });
+});
+
 export default authRouter;
 
 authRouter.get("/:userId", async (req, res) => {

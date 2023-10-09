@@ -7,7 +7,7 @@ import jwtDecode from "jwt-decode";
 const Navbar = () => {
   const [userValid, setUserValid] = useState({});
   const [isValid, setIsValid] = useState(false);
-  const [dropDown, setDropDown] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Add state for dropdown
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -29,6 +29,16 @@ const Navbar = () => {
     checkUserLogged();
   }, []);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const logoutAndNavigate = () => {
+    logout();
+    setIsDropdownOpen(false);
+    navigate("/");
+  };
+
   return (
     <>
       <div className="bg-utils-white flex flex-row justify-evenly items-center h-20 drop-shadow-xl sticky top-0 z-[100]">
@@ -40,9 +50,10 @@ const Navbar = () => {
             }}
           >
             <img
-              className="mr-1 w-[32px] h-[32px] "
-              src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/house%201.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2hvdXNlIDEuc3ZnIiwiaWF0IjoxNjk0NzcwOTIwLCJleHAiOjE3MjYzMDY5MjB9.OgUZ8BI-O4Z0EBCe0sLeO95UpgFjAdPjHqFDxZy_Ro8&t=2023-09-15T09%3A42%3A01.422Z"
-            ></img>
+              className="mr-1 w-[32px] h-[32px]"
+              src="https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/icon/house%201.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pY29uL2hvdXNlIDEuc3ZnIiwiaWF0IjoxNjk2ODQyMjAzLCJleHAiOjE3MjgzNzgyMDN9.tVXfuG-qw4FUD6-ShcdEVooPKSDhDmHriv-7pZ60ooM&t=2023-10-09T09%3A03%3A24.054Z"
+              alt="Home Icon"
+            />
             HomeServices
           </div>
           <button
@@ -56,13 +67,63 @@ const Navbar = () => {
         </div>
         <div className="w-2"></div>
         {isValid ? (
-          <div>
-            <div
-              onClick={() => {
-                logout();
-              }}
-              className="cursor-pointer h-10 w-10 bg-contain rounded-full bg-[url('https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/images/anonymous-avatar-icon-25.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvYW5vbnltb3VzLWF2YXRhci1pY29uLTI1LmpwZyIsImlhdCI6MTY5NDkzMDEzMSwiZXhwIjoxNzI2NDY2MTMxfQ.qKplnZbmLzHvOFU614GzH3yXjfmYxuoV-mNDBgNbE80&t=2023-09-17T05%3A55%3A32.509Z')]"
-            ></div>
+          <div className="relative ">
+            <div className="dropdown dropdown-end z-20 ">
+              <label
+                tabIndex={0}
+                className="hover:cursor-pointer flex flex-row"
+              >
+                <div
+                  className="bg-cover bg-center w-12 h-12 rounded-full"
+                  style={{
+                    backgroundImage: `url("https://kpxesshawklisjhmjqai.supabase.co/storage/v1/object/sign/dev-storage/images/anonymous-avatar-icon-25.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJkZXYtc3RvcmFnZS9pbWFnZXMvYW5vbnltb3VzLWF2YXRhci1pY29uLTI1LmpwZyIsImlhdCI6MTY5Njg0MjI3MCwiZXhwIjoxNzI4Mzc4MjcwfQ.0kmWSlGfzJnNCnY1q7A9lxfUVUqmdWR21KHPr__DoGw&t=2023-10-09T09%3A04%3A30.439Z")`,
+                  }}
+                  onClick={toggleDropdown}
+                ></div>
+              </label>
+              {isDropdownOpen && (
+                <ul
+                  tabIndex={0}
+                  className=" absolute top-[65px]  rounded-[5px] z-10 drop-shadow-lg  bg-utils-white w-40 [&_li>*]:rounded-[4px]"
+                >
+                  <li>
+                    <button className="py-2 px-2  w-[100%]" disabled>
+                      <span className="text-gray-700 ">ข้อมูลผู้ใช้งาน</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2 px-2 hover:bg-grey-200  w-[100%] "
+                      onClick={
+                        () => navigate(`/customer`) // Use auth.user
+                      }
+                    >
+                      <span className="text-gray-700">รายการคำสั่งซ่อม</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="py-2 px-2 hover:bg-grey-200  w-[100%]"
+                      // onClick={() => {
+                      //   navigate(`/booking/user/${auth.user.id}`); // Use auth.user
+                      //   window.location.reload();
+                      // }}
+                    >
+                      <span className="text-gray-700">ประวัติการซ่อม</span>
+                    </button>
+                  </li>
+                  <hr className="mt-2 border-grey-400"></hr>
+                  <li>
+                    <button
+                      className="py-2 px-2 hover:bg-grey-200  w-[100%]"
+                      onClick={() => logout()}
+                    >
+                      <span className="text-gray-700">ออกจากระบบ</span>
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
         ) : (
           <button
@@ -79,4 +140,5 @@ const Navbar = () => {
     </>
   );
 };
+
 export default Navbar;

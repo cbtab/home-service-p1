@@ -19,7 +19,12 @@ const Home = () => {
           ซ่อมเครื่องใช้ไฟฟ้า ซ่อมแอร์ ทำความสะอาดบ้าน <br /> โดยพนักงานแม่บ้าน
           และช่างมืออาชีพ
         </p>
-        <button className="text-[20px] font-[500] font-Prompt leading-[20px] text-utils-white bg-blue-600 py-[12px] px-[32px] rounded-[8px] w-[191px] mt-8 hover:drop-shadow-md">
+        <button
+          onClick={() => {
+            navigate("/services");
+          }}
+          className="text-[20px] font-[500] font-Prompt leading-[20px] text-utils-white bg-blue-600 py-[12px] px-[32px] rounded-[8px] w-[191px] mt-8 hover:drop-shadow-md"
+        >
           <p className="py-[5px]">เช็คราคาบริการ</p>
         </button>
       </div>

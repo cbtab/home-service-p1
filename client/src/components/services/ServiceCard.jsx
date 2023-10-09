@@ -99,6 +99,15 @@ const ServiceCard = (props) => {
                 <p className="ml-1 font-Prompt text-grey-700 text-[14px] font-[400] leading-[21px] my-1">
                   ค่าบริการประมาณ
                 </p>
+                <p className="ml-1 font-Prompt text-grey-700 text-[14px] font-[400] leading-[21px] my-1">
+                  {name &&
+                    name.sub_service &&
+                    name.sub_service[0] &&
+                    Number(name.sub_service[0].cost).toLocaleString("th-TH", {
+                      style: "currency",
+                      currency: "THB",
+                    })}
+                </p>
               </div>
               <div
                 className="font-Prompt underline text-blue-600 pt-3 cursor-pointer"

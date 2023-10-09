@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authentication";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [loginIdentifier, setLoginIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const { login } = useAuth();
   const handleChange = (e) => {
@@ -80,7 +82,10 @@ const Login = () => {
           </form>
           <div className="font-Prompt text-[16px] text-grey-700 mt-10">
             ยังไม่มีบัญชีผู้ใช้ HomeService?{" "}
-            <span className="underline text-blue-600 cursor-pointer">
+            <span
+              className="underline text-blue-600 cursor-pointer"
+              onClick={() => navigate("/register")}
+            >
               ลงทะเบียน
             </span>
           </div>

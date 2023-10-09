@@ -25,87 +25,71 @@ const OurServices = () => {
           </p>
         </div>
         <div className="h-[84px] w-full flex flex-row justify-center items-center bg-utils-white">
-          <div>
-            <input
-              className="font-Prompt border rounded-md border-grey-400 py-2 pl-2 w-[350px]"
-              placeholder="ค้นหาบริการ..."
-            ></input>
-          </div>
-          <div className="w-[100px]"></div>
-          <div className="flex flex-col justify-center items-center">
-            <label
-              htmlFor="service-category"
-              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
-            >
-              หมวดหมู่บริการ
-            </label>
-            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
-              <select
-                id="service-category"
-                name="service-category"
-                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
-                value={selectedValue}
-                onChange={handleChangeService}
-              >
-                <option value="all">บริการทั้งหมด</option>
-                <option value="general">บริการทั่วไป</option>
-                <option value="kitchen">บริการห้องครัว</option>
-                <option value="bathroom">บริการห้องน้ำ</option>
-              </select>
+          <div className="w-[70%] flex flex-row justify-center items-center">
+            <div>
+              <input
+                className="font-Prompt border rounded-md border-grey-400 py-2 pl-2 w-[350px]"
+                placeholder="ค้นหาบริการ..."
+              ></input>
             </div>
-          </div>
-          <div className="w-[100px]"></div>
-          <div className="flex flex-col justify-center items-center">
-            <label
-              htmlFor="price"
-              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
-            >
-              ราคา
-            </label>
-            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
-              <select
-                id="price"
-                name="price"
-                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
-                // value={selectedValue}
-                // onChange={handleChange}
-              >
-                <option value="0-2000฿">0-2000฿</option>
-                <option value="0-4000฿">0-4000฿</option>
-              </select>
+            <div className="w-[100px]"></div>
+            <div className="flex flex-col justify-center items-center">
+              <label
+                htmlFor="service-category"
+                className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
+              ></label>
+              <p className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700 w-[100%] text-right">
+                หมวดหมู่บริการ
+              </p>
+              <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
+                <select
+                  id="service-category"
+                  name="service-category"
+                  className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950 text-right"
+                  value={selectedValue}
+                  onChange={handleChangeService}
+                >
+                  <option value="all">บริการทั้งหมด</option>
+                  <option value="general">บริการทั่วไป</option>
+                  <option value="kitchen">บริการห้องครัว</option>
+                  <option value="bathroom">บริการห้องน้ำ</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="w-[100px]"></div>
-          <div className="flex flex-col justify-center items-center">
-            <label
-              htmlFor="sort"
-              className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
-            >
-              เรียงตาม
-            </label>
-            <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
-              <select
-                id="sort"
-                name="sort"
-                className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950"
-                // value={selectedValue}
-                // onChange={handleChange}
-              >
-                <option value="ascending">ตามตัวอักษร (Ascending)</option>
-                <option value="sort-price-low">ตามราคาต่ำ (Low price)</option>
-                <option value="sort-price-high">ตามราคาสูง (High price)</option>
-              </select>
+
+            <div className="flex flex-col justify-center items-center">
+              <label
+                htmlFor="sort"
+                className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700"
+              ></label>
+              <p className="font-Prompt text-[12px] leading-[18px] text-[400] text-grey-700 w-[100%] text-right">
+                เรียงตาม
+              </p>
+              <div className="custom-dropdown hover:text-blue-700 hover:bg-none">
+                <select
+                  id="sort"
+                  name="sort"
+                  className="font-Prompt text-[16px] leading-[24px] text-[500] text-grey-950 text-right"
+                  // value={selectedValue}
+                  // onChange={handleChange}
+                >
+                  <option value="suggest">บริการแนะนำ</option>
+                  <option value="popular">บริการยอดนิยม</option>
+                  <option value="ascending">ตามตัวอักษร (Ascending)</option>
+                  <option value="descending">ตามตัวอักษร (Descending)</option>
+                </select>
+              </div>
             </div>
+            <div className="w-[100px]"></div>
+            <button
+              className="py-[8px] px-[24px] font-Prompt text-blue-600 rounded-md border border-blue-600 bg-utils-white hover:bg-blue-500 hover:text-utils-white"
+              onClick={() => {
+                setStoredFilter(selectedValue);
+              }}
+            >
+              ค้นหา
+            </button>
           </div>
-          <div className="w-[100px]"></div>
-          <button
-            className="py-[8px] px-[24px] font-Prompt text-blue-600 rounded-md border border-blue-600 bg-utils-white hover:bg-blue-500 hover:text-utils-white"
-            onClick={() => {
-              setStoredFilter(selectedValue);
-            }}
-          >
-            ค้นหา
-          </button>
         </div>
         <div className="flex flex-row items-center justify-center my-11">
           <ServiceCard sort={storedFilter}></ServiceCard>
